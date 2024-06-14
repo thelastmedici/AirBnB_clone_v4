@@ -7,6 +7,11 @@ from models.amenity import Amenity
 from models.place import Place
 from os import environ
 from flask import Flask, render_template
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+import uuid
 app = Flask(__name__)
 # app.jinja_env.trim_blocks = True
 # app.jinja_env.lstrip_blocks = True
@@ -36,6 +41,7 @@ def hbnb():
 
     return render_template('100-hbnb.html',
                            states=st_ct,
+                           cache_id= uuid.uuid4(),
                            amenities=amenities,
                            places=places)
 
