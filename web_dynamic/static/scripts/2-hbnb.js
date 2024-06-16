@@ -1,25 +1,26 @@
-window.addEventListener('load', function () {
-    const amenityIds = {};
-    
-    $('input[type=checkbox]').change(function () {
-      if ($(this).prop('checked')) {
-        amenityIds[$(this).attr('data-id')] = $(this).attr('data-name');
-      } else if (!$(this).prop('checked')) {
-        delete amenityIds[$(this).attr('data-id')];
-      }
-      if (Object.keys(amenityIds).length === 0) {
-        $('div.amenities h4').html('&nbsp');
-      } else {
-        $('div.amenities h4').text(Object.values(amenityIds).join(', '));
-      }
-    });
-  
-    $.get('http://0.0.0.0:5001/api/v1/status/', function (data) {
-      if (data.status === 'OK') {
-        $('#api_status').addClass('available');
-      } else {
-        $('#api_status').removeClass('available');
-      }
-    });
-  });
-  
+$('document').ready(function () {
+	const url = "http://localhost:5001/api/v1/status/";
+	$.get(url, function (data) {
+		if (data.status === "OK") {
+			$('DIV#api_status').addClass("available")
+		}
+		else {
+			$('DIV#api_status').removeClass("available")
+		}
+	})
+	let check = [];
+	let checkName = []
+	$('INPUT[type="checkbox"]').change(function () {
+		if ($(this).is(":checked")) {
+			check.push($(this).attr("data-id"));
+            checkName.push($(this).attr("data-name"))
+		}
+		else {
+			let index = check.indexOf($(this).attr("data-id"));
+			check.splice(index, 1);
+			index = checkName.indexOf($(this).attr("data-name"));
+			checkName.splice(index, 1);
+		}
+		$('DIV.amenities H4').text(checkName.join(", "))
+		});
+});
